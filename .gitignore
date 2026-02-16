@@ -1,0 +1,14 @@
+# Backend
+node_modules/
+.env
+
+# Frontend
+client/node_modules/
+client/dist/
+
+# Logs
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
