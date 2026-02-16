@@ -1,22 +1,55 @@
-# Basic Node.js CRUD API
+# Fullstack User Management System
 
-This project demonstrates how to:
+A full-stack CRUD application built using React, Node.js, Express, and MongoDB Atlas.  
+This project demonstrates REST API development, MVC backend architecture, and frontend-backend integration using Axios.
 
-- Connect Node.js to MongoDB Atlas
-- Use Mongoose for schema modeling
-- Implement CRUD operations
-- Structure backend using MVC
-- Test APIs using Postman
+---
 
-## Tech Stack
+## 🚀 Tech Stack
+
+### Frontend
+- React (Vite)
+- Axios
+- Tailwind CSS
+
+### Backend
 - Node.js
-- Express
+- Express.js
 - MongoDB Atlas
 - Mongoose
+- dotenv
+- CORS
 
-## Run Project
+---
 
-1. Clone repository
-2. Run `npm install`
-3. Create `.env` file
-4. Run `npm start`
+## 📌 Features
+
+- Create new users
+- View all users
+- Update existing users
+- Delete users
+- MongoDB Atlas cloud database integration
+- RESTful API structure
+- MVC architecture
+- Modern responsive UI with Tailwind CSS
+
+---
+
+## 🏗 Project Structure
+
+project-root/
+│
+├── server.js
+├── package.json
+├── .env.example
+│
+├── src/
+│ ├── config/
+│ ├── models/
+│ ├── controllers/
+│ └── routes/
+│
+└── client/
+├── package.json
+├── src/
+└── tailwind.config.js

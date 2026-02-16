@@ -1,7 +1,6 @@
 const User = require("../models/userModel");
 
-
-// 🔹 Create User
+// CREATE USER
 exports.createUser = async (req, res) => {
   try {
     const user = await User.create(req.body);
@@ -11,32 +10,46 @@ exports.createUser = async (req, res) => {
   }
 };
 
-
-// 🔹 Get All Users
+// GET USERS + SEARCH
 exports.getUsers = async (req, res) => {
   try {
-    const users = await User.find();
-    res.status(200).json(users);
+    const keyword = req.query.search
+      ? {
+          $or: [
+            { name: { $regex: req.query.search, $options: "i" } },
+            { email: { $regex: req.query.search, $options: "i" } },
+          ],
+        }
+      : {};
+
+    const users = await User.find(keyword).sort({ createdAt: -1 });
+
+    if (req.query.search && users.length === 0) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-// 🔹 Get Single User
+// GET SINGLE USER
 exports.getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.id);
-    if (!user) return res.status(404).json({ message: "User not found" });
 
-    res.status(200).json(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-
-// 🔹 Update User
+// UPDATE USER
 exports.updateUser = async (req, res) => {
   try {
     const user = await User.findByIdAndUpdate(
@@ -45,23 +58,45 @@ exports.updateUser = async (req, res) => {
       { new: true, runValidators: true }
     );
 
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    res.status(200).json(user);
+    res.json(user);
   } catch (error) {
     res.status(400).json({ message: error.message });
   }
 };
 
-
-// 🔹 Delete User
+// DELETE USER
 exports.deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.id);
 
-    if (!user) return res.status(404).json({ message: "User not found" });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
 
-    res.status(200).json({ message: "User deleted successfully" });
+    res.json({ message: "User deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// TOGGLE STATUS
+exports.toggleStatus = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    user.status = user.status === "Active" ? "Inactive" : "Active";
+
+    await user.save();
+
+    res.json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
