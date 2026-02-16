@@ -107,9 +107,9 @@ project-root/
 
 ### 1️⃣ Clone Repository
 
-git clone https://github.com/ramklk/fullstack-user-management-system.git
+git clone https://github.com/ramklk/user-management-system-mern.git
 
-cd fullstack-user-management-system
+cd user-management-system-mern
 
 
 ---
